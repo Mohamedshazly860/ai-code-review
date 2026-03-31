@@ -43,15 +43,12 @@ class ReviewSerializer(serializers.ModelSerializer):
     Includes AI response fields (null until completed).
     """
     username = serializers.CharField(source='user.username', read_only=True)
-    # source= lets us pull a field from a related model without extra queries
-    # if select_related is used in the view (which we will)
+  
 
     language_display = serializers.CharField(
         source='get_language_display',
         read_only=True
     )
-    # get_<field>_display() is a Django built-in for choices fields.
-    # Returns "Python" instead of "python", "JavaScript" instead of "javascript"
 
     status_display = serializers.CharField(
         source='get_status_display',
@@ -72,6 +69,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'issues',
             'suggestions',
             'quality_score',
+            'summary',
             'created_at',
             'updated_at',
         )

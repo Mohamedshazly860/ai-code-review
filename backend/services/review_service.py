@@ -1,33 +1,14 @@
-# backend/services/review_service.py
-
 import logging
 from apps.reviews.models import Review
+from .ai_service import ai_service, AIServiceError
 
 logger = logging.getLogger(__name__)
 
 
 def create_review(user, language: str, code_snippet: str, question: str = '') -> Review:
     """
-    Creates a new Review record in PENDING state.
-
-    This is the single entry point for creating reviews.
-    The view calls this function — it never touches Review.objects directly.
-
-    Why a service function instead of just calling Review.objects.create() in the view?
-    Because tomorrow you might need to:
-      - Send a notification when a review is created
-      - Check user review limits
-      - Log analytics events
-    All of that goes here, not in the view. The view stays clean.
-
-    Args:
-        user: The authenticated User instance
-        language: Programming language string (must match Review.Language choices)
-        code_snippet: The code to review
-        question: Optional user question/context
-
-    Returns:
-        Review instance with status=PENDING
+    Creates a Review, calls the AI, and updates the record.
+    Status transitions: PENDING → PROCESSING → COMPLETED (or FAILED)
     """
     review = Review.objects.create(
         user=user,
@@ -36,20 +17,41 @@ def create_review(user, language: str, code_snippet: str, question: str = '') ->
         question=question,
         status=Review.Status.PENDING,
     )
+    logger.info(f"Review #{review.id} created for user '{user.username}'")
 
-    logger.info(f"Review #{review.id} created for user '{user.username}' [{language}]")
+    review.status = Review.Status.PROCESSING
+    review.save(update_fields=['status'])
+    
+
+    try:
+        result = ai_service.generate_review(
+            code_snippet=code_snippet,
+            language=language,
+            question=question,
+        )
+
+        review.issues = result['issues']
+        review.suggestions = result['suggestions']
+        review.quality_score = result['quality_score']
+        review.raw_response = result['raw_response']
+        review.status = Review.Status.COMPLETED
+        review.save(update_fields=[
+            'issues', 'suggestions', 'quality_score',
+            'raw_response', 'status', 'updated_at'
+        ])
+
+        logger.info(f"Review #{review.id} completed. Score: {result['quality_score']}")
+
+    except AIServiceError as e:
+        review.status = Review.Status.FAILED
+        review.raw_response = str(e)
+        review.save(update_fields=['status', 'raw_response', 'updated_at'])
+        logger.error(f"Review #{review.id} failed: {str(e)}")
 
     return review
 
 
 def get_user_reviews(user):
-    """
-    Returns all reviews for a user, optimized for list display.
-
-    select_related('user') — fetches User in the same SQL query as Review.
-    Without this, accessing review.user in the serializer triggers
-    a separate DB query per review (N+1 problem).
-    """
     return (
         Review.objects
         .filter(user=user)
@@ -59,17 +61,6 @@ def get_user_reviews(user):
 
 
 def get_review_detail(review_id: int, user) -> Review | None:
-    """
-    Fetches a single review by ID, scoped to the requesting user.
-
-    Why filter by user? So users can't access each other's reviews
-    by guessing IDs. /api/reviews/42/ should 404 if review 42
-    belongs to someone else — not 403. We don't confirm the record
-    exists to avoid leaking information.
-
-    Returns:
-        Review instance or None if not found / not owned by user
-    """
     try:
         return Review.objects.select_related('user').get(id=review_id, user=user)
     except Review.DoesNotExist:
