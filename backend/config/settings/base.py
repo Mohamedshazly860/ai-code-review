@@ -238,3 +238,49 @@ CELERY_TASK_SOFT_TIME_LIMIT = 240
 CELERY_TASK_MAX_RETRIES = 3
 
 CELERY_TASK_ACKS_LATE = True
+
+
+# ─────────────────────────────────────────────
+# Cache
+# ─────────────────────────────────────────────
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://redis:6379/1'),
+        'KEY_PREFIX': 'ai_code_review',
+        'TIMEOUT': 60 * 15, 
+    }
+}
+
+
+# ─────────────────────────────────────────────
+# Logging
+# ─────────────────────────────────────────────
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {module} — {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'services': {
+            'handlers': ['console'],
+            'level': 'DEBUG',   # Show debug logs from our services
+            'propagate': False,
+        },
+    },
+}

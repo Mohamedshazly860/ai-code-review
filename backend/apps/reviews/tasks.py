@@ -49,9 +49,15 @@ def process_review_task(self, review_id: int) -> dict:
                 'summary', 'raw_response', 'status', 'updated_at'
             ])
 
-        logger.info(f"Review #{review_id} completed. Score: {result['quality_score']}")
-        return {'status': 'completed', 'review_id': review_id, 'score': result['quality_score']}
+        from services.cache_service import set_cached_review_detail, invalidate_review_list
+        from apps.reviews.serializers import ReviewSerializer
 
+        data = dict(ReviewSerializer(review).data)
+        set_cached_review_detail(review.id, data)
+        invalidate_review_list(review.user_id)
+
+        logger.info(f"Review #{review_id} completed and cached. Score: {result['quality_score']}")
+    
     except AIServiceError as e:
         logger.warning(f"Review #{review_id} AI error (attempt {self.request.retries + 1}): {str(e)}")
 
