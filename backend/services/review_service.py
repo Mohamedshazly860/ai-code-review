@@ -1,14 +1,15 @@
 import logging
 from apps.reviews.models import Review
-from .ai_service import ai_service, AIServiceError
+from apps.reviews.tasks import process_review_task
 
 logger = logging.getLogger(__name__)
 
 
 def create_review(user, language: str, code_snippet: str, question: str = '') -> Review:
     """
-    Creates a Review, calls the AI, and updates the record.
-    Status transitions: PENDING → PROCESSING → COMPLETED (or FAILED)
+    Creates a Review record and dispatches it to the Celery queue.
+    Returns immediately with status: PENDING.
+    The AI processing happens in the background.
     """
     review = Review.objects.create(
         user=user,
@@ -17,36 +18,11 @@ def create_review(user, language: str, code_snippet: str, question: str = '') ->
         question=question,
         status=Review.Status.PENDING,
     )
-    logger.info(f"Review #{review.id} created for user '{user.username}'")
 
-    review.status = Review.Status.PROCESSING
-    review.save(update_fields=['status'])
-    
+    logger.info(f"Review #{review.id} created, dispatching to queue")
 
-    try:
-        result = ai_service.generate_review(
-            code_snippet=code_snippet,
-            language=language,
-            question=question,
-        )
 
-        review.issues = result['issues']
-        review.suggestions = result['suggestions']
-        review.quality_score = result['quality_score']
-        review.raw_response = result['raw_response']
-        review.status = Review.Status.COMPLETED
-        review.save(update_fields=[
-            'issues', 'suggestions', 'quality_score',
-            'raw_response', 'status', 'updated_at'
-        ])
-
-        logger.info(f"Review #{review.id} completed. Score: {result['quality_score']}")
-
-    except AIServiceError as e:
-        review.status = Review.Status.FAILED
-        review.raw_response = str(e)
-        review.save(update_fields=['status', 'raw_response', 'updated_at'])
-        logger.error(f"Review #{review.id} failed: {str(e)}")
+    process_review_task.delay(review.id)
 
     return review
 

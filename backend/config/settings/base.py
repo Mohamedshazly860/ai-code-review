@@ -216,7 +216,25 @@ CORS_ALLOWED_ORIGINS = config(
     default='http://localhost:3000',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
-# CORS = Cross-Origin Resource Sharing.
-# The browser blocks requests from localhost:3000 to localhost:8000
-# because they're different origins (different port = different origin).
-# This setting tells Django: "yes, allow requests from the React dev server."
+
+
+# ─────────────────────────────────────────────
+# Celery
+# ─────────────────────────────────────────────
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://redis:6379/0')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://redis:6379/0')
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_TASK_TIME_LIMIT = 300
+
+CELERY_TASK_SOFT_TIME_LIMIT = 240
+
+CELERY_TASK_MAX_RETRIES = 3
+
+CELERY_TASK_ACKS_LATE = True

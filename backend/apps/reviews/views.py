@@ -59,3 +59,33 @@ class ReviewDetailView(APIView):
 
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
+    
+
+
+class ReviewStatusView(APIView):
+    """
+    GET /api/reviews/<id>/status/
+    Returns only status and score not the full review data.
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, review_id):
+        review = get_review_detail(review_id, request.user)
+
+        if review is None:
+            return Response(
+                {'detail': 'Review not found.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        return Response({
+            'id': review.id,
+            'status': review.status,
+            'status_display': review.get_status_display(),
+            'quality_score': review.quality_score,
+            **(
+                {'completed_at': review.updated_at}
+                if review.status == review.Status.COMPLETED
+                else {}
+            )
+        })
