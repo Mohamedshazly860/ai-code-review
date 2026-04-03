@@ -1,6 +1,5 @@
 import logging
 from apps.reviews.models import Review
-from apps.reviews.tasks import process_review_task
 from .cache_service import (
     get_cached_review_list,
     set_cached_review_list,
