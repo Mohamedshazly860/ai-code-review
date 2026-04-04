@@ -11,7 +11,7 @@ from services.review_service import (
     get_review_detail,
     get_cached_or_serialize_review,
 )
-from .serializers import ReviewCreateSerializer, ReviewSerializer, ReviewListSerializer
+from .serializers import ReviewCreateSerializer, ReviewSerializer
 
 logger = logging.getLogger(__name__)
 

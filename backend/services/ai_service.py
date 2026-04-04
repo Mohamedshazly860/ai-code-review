@@ -52,9 +52,7 @@ class AIService:
         }
 
         logger.info(f"Sending review request [{self.model}]")
-
         max_retries = 3
-        last_error = None
 
         for attempt in range(max_retries):
             try:
@@ -65,10 +63,9 @@ class AIService:
                     timeout=REQUEST_TIMEOUT,
                 )
                 response.raise_for_status()
-                break  # Success
+                break  # Success — exit retry loop
 
             except httpx.HTTPStatusError as e:
-                last_error = e
                 if e.response.status_code == 429 and attempt < max_retries - 1:
                     wait = 2 ** attempt
                     logger.warning(f"Rate limited, retrying in {wait}s (attempt {attempt + 1})")
@@ -83,7 +80,7 @@ class AIService:
                 raise AIServiceError("The AI service timed out. Please try again.")
 
             except httpx.RequestError as e:
-                raise AIServiceError("Could not connect to AI service. Please try again.")
+                raise AIServiceError(f"Could not connect to AI service: {str(e)}")
         else:
             raise AIServiceError("AI service is busy after multiple retries. Please try again.")
 

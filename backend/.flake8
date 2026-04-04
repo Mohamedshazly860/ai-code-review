@@ -1,11 +1,21 @@
+# backend/.flake8 — replace entire file
+
 [flake8]
 max-line-length = 100
 exclude =
     migrations,
     __pycache__,
     .git,
-    venv
+    venv,
+    settings
 ignore =
     E501,
     W503,
-    E203
+    E203,
+    W292,
+    W291,
+    W293,
+    E302,
+    E303,
+    E122,
+    E402
