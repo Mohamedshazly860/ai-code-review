@@ -36,5 +36,5 @@ jobs:
           target: production
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/backend:latest
-            ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner | lower }}/ai-code-review/backend:latest
+            ghcr.io/${{ github.repository_owner | lower }}/ai-code-review/backend:${{ github.sha }}
