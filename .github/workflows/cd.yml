@@ -1,3 +1,5 @@
+# .github/workflows/cd.yml — replace the entire file
+
 name: CD
 
 on:
@@ -8,15 +10,18 @@ on:
       - 'docker-compose.yml'
       - '.github/workflows/cd.yml'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/mohamedshazly860/ai-code-review-backend
+
 jobs:
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    needs: []
 
     permissions:
       contents: read
-      packages: write 
+      packages: write
 
     steps:
       - name: Checkout code
@@ -36,5 +41,5 @@ jobs:
           target: production
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner | lower }}/ai-code-review/backend:latest
-            ghcr.io/${{ github.repository_owner | lower }}/ai-code-review/backend:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
