@@ -8,12 +8,11 @@ RUN npm install
 COPY . .
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
 
-# ── Production build ────────────────────────────────────────────────────────────
 FROM development AS builder
 RUN npm run build
 
 FROM nginx:alpine AS production
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80

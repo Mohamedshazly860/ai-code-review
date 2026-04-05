@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base Backgrounds */
+  --color-bg-primary: #1E1E1E;
+  --color-bg-secondary: #252526;
+  --color-bg-tertiary: #2D2D2D;
+  --color-bg-elevated: #333333;
+
+  /* Borders */
+  --color-border-subtle: #3C3C3C;
+  --color-border-strong: #454545;
+
+  /* Text */
+  --color-text-primary: #D4D4D4;
+  --color-text-secondary: #A6A6A6;
+  --color-text-muted: #6A6A6A;
+
+  /* Accent */
+  --color-accent: #569CD6;
+  --color-accent-hover: #4A90D9;
+  --color-accent-active: #3B82F6;
+
+  /* Semantic */
+  --color-success: #6A9955;
+  --color-warning: #D7BA7D;
+  --color-error: #F44747;
+  --color-info: #4FC1FF;
+
+  /* Syntax */
+  --color-syntax-keyword: #C586C0;
+  --color-syntax-function: #DCDCAA;
+  --color-syntax-string: #CE9178;
+  --color-syntax-number: #B5CEA8;
+  --color-syntax-comment: #6A9955;
+
+  /* Typography */
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1E1E1E;
+  color: #D4D4D4;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar styling — matches VS Code */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #1E1E1E; }
+::-webkit-scrollbar-thumb { background: #454545; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #569CD6; }
