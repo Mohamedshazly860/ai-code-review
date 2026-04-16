@@ -1,4 +1,11 @@
-export default function Input({ label, error, ...props }) {
+import { InputHTMLAttributes } from 'react'
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    label?: string
+    error?: string
+}
+
+export default function Input({ label, error, style, ...props }: InputProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
       {label && (
@@ -16,8 +23,9 @@ export default function Input({ label, error, ...props }) {
           fontSize: '0.875rem',
           fontFamily: 'inherit',
           outline: 'none',
-          transition: 'border-color 0.2s',
           width: '100%',
+          transition: 'border-color 0.2s',
+          ...style,
         }}
         onFocus={e => e.target.style.borderColor = error ? '#F44747' : '#569CD6'}
         onBlur={e => e.target.style.borderColor = error ? '#F44747' : '#3C3C3C'}
