@@ -128,7 +128,7 @@ export default function Landing() {
         <div className="flex flex-col bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden max-h-[400px] gap-6 ">
 
           {/* Title bar */}
-          <div className="bg-[#2D2D2D] border-b border-[#3C3C3C] px-4 py-2.5 flex items-center gap-2 h-7">
+          <div className="bg-[#2D2D2D] border-b border-[#3C3C3C] px-4 py-2.5 flex items-center gap-2 h-7" style={{ paddingLeft: '5px' }}>
             <div className="flex gap-1">
               <span className="w-[11px] h-[11px] rounded-full bg-[#F44747]" />
               <span className="w-[11px] h-[11px] rounded-full bg-[#D7BA7D]" />
@@ -180,10 +180,10 @@ export default function Landing() {
           </div>
 
           {/* Feedback */}
-          <div className="border-t border-[#3C3C3C] pt-0 flex flex-col gap-3">
+          <div className="border-t border-[#3C3C3C] pt-0 flex flex-col gap-3" style={{ paddingLeft: '5px' }}>
             <div className="px-5 py-3 flex items-center gap-3 border-b border-[#2D2D2D]">
               <span className="mt-0.5 px-2 py-0.5 rounded bg-[#F44747]/15 border border-[#F44747]/30 text-[#F44747] text-[10px] font-mono whitespace-nowrap ">HIGH</span>
-              <div>
+              <div className=''>
                 <p className="text-[13px] font-semibold text-[#D4D4D4] mb-0.5">Division by Zero</p>
                 <p className="text-[11px] text-[#A6A6A6]">
                   No guard for <code className="text-[#CE9178]">b == 0</code> — raises <code className="text-[#CE9178]">ZeroDivisionError</code> at runtime
@@ -193,7 +193,7 @@ export default function Landing() {
             <div className="px-5 py-3 flex items-start gap-3">
               <span className="mt-0.5 px-2 py-0.5 rounded bg-[#D7BA7D]/15 border border-[#D7BA7D]/30 text-[#D7BA7D] text-[10px] font-mono whitespace-nowrap">MED</span>
               <div>
-                <p className="text-[13px] font-semibold text-[#D4D4D4] mb-0.5">Missing Type Hints</p>
+                <p className="text-[13px] font-semibold text-[#D4D4D4]">Missing Type Hints</p>
                 <p className="text-[11px] text-[#A6A6A6]">
                   <code className="text-[#CE9178]">process_data</code> has no parameter or return type annotations
                 </p>
@@ -202,7 +202,7 @@ export default function Landing() {
           </div>
 
           {/* Score */}
-          <div className="px-5 py-3.5 flex items-center gap-4 bg-[#2D2D2D]">
+          <div className="px-5 py-3.5 flex items-center gap-4 bg-[#2D2D2D]" style={{paddingLeft:'5px', paddingRight:'5px'}}>
             <div>
               <div className="text-[11px] text-[#6A6A6A] font-mono mb-0.5">Quality Score</div>
               <div className="text-[22px] font-extrabold text-[#D7BA7D] font-mono">22</div>
@@ -217,16 +217,16 @@ export default function Landing() {
       </div>
 
       {/* Stats */}
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center h-20 ">
       <div className="grid grid-cols-3 border-t border-b border-[#3C3C3C] w-full" style={{ gap: '1px', background: '#3C3C3C' }}>
         {[
           { num: '15+', label: 'Languages supported' },
           { num: '<2s', label: 'Average review time' },
           { num: '3', label: 'Feedback dimensions' },
         ].map(s => (
-          <div key={s.label} className="bg-[#252526] py-4 text-center">
+          <div key={s.label} className="bg-[#252526] py-4 text-center flex flex-col items-center justify-center">
             <div className="text-xl font-extrabold text-[#569CD6] font-mono mb-0.5">{s.num}</div>
-            <div className="text-[10px] text-[#6A6A6A]">{s.label}</div>
+            <div className="text-[14px] text-[#A6A6A6]">{s.label}</div>
           </div>
         ))}
       </div>
@@ -236,12 +236,12 @@ export default function Landing() {
       <div className="w-full flex justify-center">
       <div className="grid grid-cols-4 gap-3 w-full max-w-[1400px] px-12 py-12">
         {FEATURES.map(({ color, title, desc, icon }) => (
-          <div key={title} className="bg-[#252526] border border-[#3C3C3C] rounded-lg p-4 hover:border-[#454545] transition-colors">
+          <div key={title} className="bg-[#252526] border border-[#3C3C3C] rounded-lg p-4 hover:border-[#454545] transition-colors flex flex-col items-center gap-1 text-center" style={{padding:'5px'}}>
             <div className={`w-8 h-8 rounded ${color} flex items-center justify-center mb-2`}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">{icon}</svg>
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">{icon}</svg>
             </div>
-            <h3 className="text-sm font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
-            <p className="text-xs text-[#6A6A6A] leading-relaxed">{desc}</p>
+            <h3 className="text-md font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
+            <p className="text-sm text-[#6A6A6A] leading-relaxed">{desc}</p>
           </div>
         ))}
       </div>
@@ -250,15 +250,15 @@ export default function Landing() {
       {/* How it works */}
       <div className="w-full flex justify-center">
       <div className="w-full max-w-[1400px] px-12 pb-12">
-        <div className="text-[10px] font-mono text-[#569CD6] uppercase tracking-widest mb-6">
+        <div className="text-[14px] font-mono text-[#569CD6] uppercase tracking-widest mb-6">
           // how it works
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-5">
           {STEPS.map(({ num, title, desc }) => (
-            <div key={num} className="bg-[#252526] border border-[#3C3C3C] rounded-lg p-4">
-              <div className="text-[10px] font-mono text-[#3C3C3C] mb-2">{num}</div>
-              <h3 className="text-sm font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
-              <p className="text-xs text-[#6A6A6A] leading-relaxed">{desc}</p>
+            <div key={num} className="bg-[#252526] border border-[#3C3C3C] rounded-lg flex flex-col items-start gap-2 p-5 hover:border-[#454545] transition-colors" style={{padding:'5px'}}>
+              <div className="text-[12px] font-mono text-[#A6A6A6] mb-2">{num}</div>
+              <h3 className="text-md font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -266,24 +266,24 @@ export default function Landing() {
       </div>
 
       {/* CTA */}
-      <div className="w-full flex justify-center">
-      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-10 text-center w-full">
-        <h2 className="text-2xl font-extrabold text-[#D4D4D4] mb-2 tracking-tight">
+      <div className="w-full flex justify-center h-40 ">
+      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-10 text-center w-full flex flex-col items-center justify-center gap-2" style={{padding:'5px'}}>
+        <h2 className="text-2xl font-extrabold text-[#D4D4D4] tracking-tight">
           Ready to write cleaner code?
         </h2>
-        <p className="text-xs text-[#6A6A6A] mb-5">Free to use. No credit card required.</p>
+        <p className="text-md text-[#6A6A6A] mb-5">Free to use. No credit card required.</p>
         <Link
           to="/register"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#569CD6] text-[#1E1E1E] no-underline font-bold text-sm hover:bg-[#4A90D9] transition-colors"
-        >
-          Create your account →
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#569CD6] text-[#1E1E1E] no-underline font-bold text-sm hover:bg-[#4A90D9] transition-colors h-8 "
+         style={{padding:'5px 20px'}}>
+          Create your account
         </Link>
       </div>
       </div>
 
       {/* Footer */}
       <footer className=" flex items-center justify-between text-sm border-t border-[#3C3C3C] ">
-        <div className="font-mono text-[#6A6A6A]">
+        <div className="font-mono text-[#6A6A6A] flex items-center w-65">
           ai<span className="text-[#569CD6]">.</span>review
         </div>
         <div className="flex gap-6">
