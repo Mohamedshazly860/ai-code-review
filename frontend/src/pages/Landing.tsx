@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Navbar from '../components/ui/Navbar'
 
 const LANGUAGES = ['Python', 'JavaScript', 'TypeScript', 'Go', 'Rust', 'Java', 'C++', 'SQL', 'Bash']
 
@@ -56,28 +57,7 @@ export default function Landing() {
     <div className="bg-[#1E1E1E] min-h-screen text-[#D4D4D4] gap-12 flex flex-col">
 
       {/* Navbar */}
-      <nav className="bg-[#252526] border-b border-[#3C3C3C] px-12 h-12 flex items-center justify-between sticky top-0 z-50 ">
-        <div className="flex items-center gap-2 font-mono font-bold text-md ">
-          <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-            <rect x="1" y="1" width="7" height="7" rx="1.5" fill="#569CD6" />
-            <rect x="10" y="1" width="7" height="7" rx="1.5" fill="#569CD6" opacity="0.5" />
-            <rect x="1" y="10" width="7" height="7" rx="1.5" fill="#569CD6" opacity="0.5" />
-            <rect x="10" y="10" width="7" height="7" rx="1.5" fill="#569CD6" opacity="0.3" />
-          </svg>
-          ai<span className="text-[#569CD6]">.</span>review
-        </div>
-        <div className="flex items-center gap-6">
-          <span className="text-[#A6A6A6] text-sm cursor-pointer hover:text-[#D4D4D4] transition-colors">Features</span>
-          <span className="text-[#A6A6A6] text-sm cursor-pointer hover:text-[#D4D4D4] transition-colors">Docs</span>
-          <span className="text-[#A6A6A6] text-sm cursor-pointer hover:text-[#D4D4D4] transition-colors">Pricing</span>
-          <Link to="/login" className="px-3 py-1 rounded-md border border-[#3C3C3C] text-[#D4D4D4] text-sm no-underline hover:border-[#569CD6] transition-colors w-25 text-center ">
-            Sign In
-          </Link>
-          <Link to="/register" className="px-4 py-1 rounded-md bg-[#569CD6] text-[#1E1E1E] text-sm font-bold no-underline hover:bg-[#4A90D9] transition-colors w-25 text-center ">
-            Get Started
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <div className="w-full flex justify-center">
@@ -183,7 +163,7 @@ export default function Landing() {
           <div className="border-t border-[#3C3C3C] pt-0 flex flex-col gap-3" style={{ paddingLeft: '5px' }}>
             <div className="px-5 py-3 flex items-center gap-3 border-b border-[#2D2D2D]">
               <span className="mt-0.5 px-2 py-0.5 rounded bg-[#F44747]/15 border border-[#F44747]/30 text-[#F44747] text-[10px] font-mono whitespace-nowrap ">HIGH</span>
-              <div className=''>
+              <div className='flex flex-col gap-0.5' style={{paddingTop:'3px', paddingBottom:'3px'}}>
                 <p className="text-[13px] font-semibold text-[#D4D4D4] mb-0.5">Division by Zero</p>
                 <p className="text-[11px] text-[#A6A6A6]">
                   No guard for <code className="text-[#CE9178]">b == 0</code> — raises <code className="text-[#CE9178]">ZeroDivisionError</code> at runtime
