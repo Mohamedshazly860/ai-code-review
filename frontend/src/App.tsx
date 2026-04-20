@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Landing from './pages/Landing'
@@ -30,6 +30,22 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   return user ? <Navigate to="/dashboard" replace /> : <>{children}</>
 }
 
+function AppRoutes() {
+  const location = useLocation()
+
+  return (
+    <Routes>
+      <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/reviews/new" element={<ProtectedRoute><Review key="new" /></ProtectedRoute>} />
+      <Route path="/reviews/:id" element={<ProtectedRoute><Review key={location.pathname} /></ProtectedRoute>} />
+    </Routes>
+  )
+}
+
+
 export default function App() {
   return (
     <AuthProvider>
@@ -47,13 +63,13 @@ export default function App() {
             },
           }}
         />
-        <Routes>
-          <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
+          <AppRoutes />
+          {/* <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/reviews/:id" element={<ProtectedRoute><Review /></ProtectedRoute>} />
-        </Routes>
+          <Route path="/reviews/new" element={<ProtectedRoute><Review key="new" /></ProtectedRoute>} />
+          <Route path="/reviews/:id" element={<ProtectedRoute><Review /></ProtectedRoute>} /> */}
       </BrowserRouter>
     </AuthProvider>
   )
