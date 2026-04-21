@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import Editor from '@monaco-editor/react'
 import {
-  Terminal, ArrowLeft, Send, Loader2, CheckCircle,
+  Send, Loader2, CheckCircle,
   XCircle, AlertTriangle, Lightbulb, Code2, Clock,
 } from 'lucide-react'
 import toast from 'react-hot-toast'
