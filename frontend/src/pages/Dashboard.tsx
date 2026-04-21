@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
-  Terminal, Plus, Code2, Clock, CheckCircle,
-  XCircle, Loader2, LogOut, ChevronRight,
+  Plus, Code2, Clock, CheckCircle,
+  XCircle, Loader2, ChevronRight,
   User, Mail, Edit3, Camera,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -51,7 +51,7 @@ function ScoreBadge({ score }: { score: number | null }) {
 }
 
 export default function Dashboard() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [reviews, setReviews] = useState<ReviewListItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -63,8 +63,6 @@ export default function Dashboard() {
       .catch(() => setError('Failed to load reviews.'))
       .finally(() => setLoading(false))
   }, [])
-
-  const handleLogout = () => { logout(); navigate('/') }
 
   const completed = reviews.filter(r => r.status === 'completed').length
   const avgScore = reviews.filter(r => r.quality_score !== null).length > 0
