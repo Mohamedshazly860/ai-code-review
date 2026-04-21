@@ -1,4 +1,3 @@
-// frontend/src/pages/Register.tsx
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Terminal, UserPlus, Code2, Zap, Shield } from 'lucide-react'

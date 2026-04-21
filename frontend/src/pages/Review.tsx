@@ -8,6 +8,7 @@ import {
 import toast from 'react-hot-toast'
 import { reviewsApi } from '../api/reviews'
 import type { Review as ReviewType, Language, Issue } from '../types'
+import Navbar from '../components/ui/Navbar'
 
 const LANGUAGES: { value: Language; label: string }[] = [
   { value: 'python', label: 'Python' },
@@ -164,23 +165,7 @@ export default function Review() {
     <div className="min-h-screen bg-[#1E1E1E] text-[#D4D4D4] flex flex-col">
 
       {/* Navbar */}
-      <nav className="bg-[#252526] border-b border-[#3C3C3C] px-12 h-14 flex items-center justify-between sticky top-0 z-50">
-        <div className="flex items-center gap-6">
-          <Link to="/dashboard" className="flex items-center gap-1.5 text-sm text-[#A6A6A6] hover:text-[#D4D4D4] transition-colors no-underline">
-            <ArrowLeft size={15} /> Dashboard
-          </Link>
-          <div className="w-px h-4 bg-[#3C3C3C]" />
-          <div className="flex items-center gap-2.5 font-mono font-bold text-lg">
-            <Terminal size={18} className="text-[#569CD6]" />
-            Dev<span className="text-[#569CD6]">Insight</span>
-          </div>
-        </div>
-        {review && (
-          <div className="flex items-center gap-2 text-xs font-mono text-[#6A6A6A]">
-            Review <span className="text-[#569CD6]">#{review.id}</span>
-          </div>
-        )}
-      </nav>
+      <Navbar />
 
       {/* ── New Review Form ── */}
       {(isNew && !submitted) && (
