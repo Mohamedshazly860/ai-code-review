@@ -1,6 +1,9 @@
-from .base import * 
-from decouple import config
+# backend/config/settings/production.py
 
+from .base import *  # noqa: F401, F403
+from decouple import config
+import os
+CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 DEBUG = False
 
 ALLOWED_HOSTS = config(
@@ -9,19 +12,14 @@ ALLOWED_HOSTS = config(
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
-# Security headers
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False  # Railway handles SSL termination
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
 
-# Static files — WhiteNoise serves them directly from Django
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← right after SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -33,10 +31,13 @@ MIDDLEWARE = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# CORS — allow your Vercel frontend domain
+# Override CORS — this explicitly replaces whatever base.py set
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='',
+    default='http://localhost:3000',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 CORS_ALLOW_CREDENTIALS = True
+
+# Allow all origins temporarily for debugging — remove after confirming it works
+CORS_ALLOW_ALL_ORIGINS = True
