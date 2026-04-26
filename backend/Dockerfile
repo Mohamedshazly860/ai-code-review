@@ -29,8 +29,7 @@ RUN pip install --no-cache-dir -r requirements/production.txt
 
 COPY . .
 
-# Write the start script directly in the Dockerfile
-RUN printf '#!/bin/sh\nset -e\npython manage.py migrate --noinput\nexec gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120\n' > /start.sh \
+RUN printf '#!/bin/sh\nset -e\nexport DJANGO_SETTINGS_MODULE=config.settings.production\npython manage.py migrate --noinput\nexec gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120\n' > /start.sh \
     && chmod +x /start.sh
 
 RUN addgroup --system django && adduser --system --ingroup django django
@@ -38,4 +37,3 @@ USER django
 
 EXPOSE 8000
 CMD ["/bin/sh", "/start.sh"]
-
