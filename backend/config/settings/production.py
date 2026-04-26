@@ -2,8 +2,7 @@
 
 from .base import *  # noqa: F401, F403
 from decouple import config
-import os
-CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
+
 DEBUG = False
 
 ALLOWED_HOSTS = config(
@@ -39,5 +38,3 @@ CORS_ALLOWED_ORIGINS = config(
 )
 CORS_ALLOW_CREDENTIALS = True
 
-# Allow all origins temporarily for debugging — remove after confirming it works
-CORS_ALLOW_ALL_ORIGINS = True
