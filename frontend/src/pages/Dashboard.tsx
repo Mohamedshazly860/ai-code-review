@@ -224,7 +224,7 @@ export default function Dashboard() {
           </div>
 
           {/* Table */}
-          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden w-full">
+          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden w-full ">
 
             {/* Table Header */}
             <div className="grid grid-cols-[2fr_1fr_1fr_1fr_60px] gap-4 px-6 py-3 border-b border-[#3C3C3C] bg-[#2D2D2D]" style={{padding:'7px'}}>
@@ -252,13 +252,13 @@ export default function Dashboard() {
 
             {/* Empty */}
             {!loading && !error && reviews.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-20 gap-4 " style={{paddingTop:'10px', paddingBottom:'10px'}}>
-                <div className="w-12 h-12 rounded-xl bg-[#2D2D2D] border border-[#3C3C3C] flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center py-20 gap-4 h-40" style={{paddingTop:'10px', paddingBottom:'10px'}}>
+                <div className="w-8 h-8 rounded-xl bg-[#2D2D2D] border border-[#3C3C3C] flex items-center justify-center">
                   <Code2 size={22} className="text-[#454545]" />
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-semibold text-[#A6A6A6] mb-1">No reviews yet</p>
-                  <p className="text-lg text-[#6A6A6A]">Submit your first code snippet to get started</p>
+                  <p className="text-md font-semibold text-[#A6A6A6] mb-1">No reviews yet</p>
+                  <p className="text-md text-[#6A6A6A]">Submit your first code snippet to get started</p>
                 </div>
                 <Link
                   to="/reviews/new"
