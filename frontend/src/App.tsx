@@ -63,12 +63,6 @@ export default function App() {
           }}
         />
           <AppRoutes />
-          {/* <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/reviews/new" element={<ProtectedRoute><Review key="new" /></ProtectedRoute>} />
-          <Route path="/reviews/:id" element={<ProtectedRoute><Review /></ProtectedRoute>} /> */}
       </BrowserRouter>
     </AuthProvider>
   )
