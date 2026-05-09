@@ -10,4 +10,9 @@ export const authApi = {
 
   profile: () =>
     client.get<User>('/auth/profile/').then(r => r.data),
+
+  updateProfile: (formData: FormData) =>
+  client.patch<User>('/auth/profile/update/', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }).then(r => r.data),
 }

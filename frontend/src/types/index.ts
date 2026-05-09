@@ -3,6 +3,12 @@ export interface User {
   username: string
   email: string
   created_at: string
+  first_name?: string
+  last_name?: string
+  phone_number?: string
+  address?: string
+  bio?: string
+  avatar?: string | null
 }
 
 export interface Tokens {

@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Review from './pages/Review'
+import EditProfile from './pages/EditProfile'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -40,6 +41,7 @@ function AppRoutes() {
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/reviews/new" element={<ProtectedRoute><Review key="new" /></ProtectedRoute>} />
       <Route path="/reviews/:id" element={<ProtectedRoute><Review key={location.pathname} /></ProtectedRoute>} />
+      <Route path="/profile/edit" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
     </Routes>
   )
 }
