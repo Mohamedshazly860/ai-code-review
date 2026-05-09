@@ -109,12 +109,12 @@ export default function Dashboard() {
               <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Profile</span>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => navigate('/profile/edit')}
+              <Link
+                to="/profile/edit"
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-[#2D2D2D] border border-[#3C3C3C] text-xs text-[#A6A6A6] font-semibold hover:border-[#569CD6] hover:text-[#569CD6] transition-colors cursor-pointer"
               >
                 <Edit3 size={13} /> Update Info
-              </button>
+              </Link>
               <Link
                 to="/reviews/new"
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-[#569CD6] text-[#1E1E1E] text-xs font-bold no-underline hover:bg-[#4A90D9] transition-colors"
