@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from .serializers import RegisterSerializer, UserSerializer
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from .serializers import RegisterSerializer, UserSerializer, ProfileSerializer,ProfileUpdateSerializer
 
 User = get_user_model()
 
@@ -42,3 +42,30 @@ class ProfileView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+    
+
+class ProfileUpdateView(APIView):
+    permission_classes = (IsAuthenticated,)
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    # MultiPartParser + FormParser needed for file (avatar) uploads
+
+    def patch(self, request):
+        """Partial update — only send fields you want to change."""
+        profile, _ = request.user.profile.__class__.objects.get_or_create(
+            user=request.user
+        )
+        serializer = ProfileUpdateSerializer(
+            profile,
+            data=request.data,
+            partial=True
+        )
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+
+        # Return full profile after update
+        return Response(
+            ProfileSerializer(profile).data,
+            status=status.HTTP_200_OK
+        )

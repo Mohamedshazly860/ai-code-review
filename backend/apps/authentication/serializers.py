@@ -2,10 +2,9 @@
 
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from .models import Profile
 
 User = get_user_model()
-# Always use get_user_model() — never import User directly.
-# This respects AUTH_USER_MODEL and works correctly with custom user models.
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -20,8 +19,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password')
 
     def create(self, validated_data):
-        # .create() would save raw password — ALWAYS use create_user()
-        # create_user() hashes the password before saving
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -33,3 +30,41 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'created_at')
         read_only_fields = fields
+
+        class ProfileSerializer(serializers.ModelSerializer):
+            """Read serializer — returns profile + user info combined."""
+            username = serializers.CharField(source='user.username', read_only=True)
+            email = serializers.CharField(source='user.email', read_only=True)
+            created_at = serializers.DateTimeField(source='user.created_at', read_only=True)
+            avatar = serializers.ImageField(required=False, allow_null=True)
+
+            class Meta:
+                model = Profile
+                fields = (
+                    'username',
+                    'email',
+                    'first_name',
+                    'last_name',
+                    'phone_number',
+                    'address',
+                    'bio',
+                    'avatar',
+                    'created_at',
+                    'updated_at',
+                )
+                read_only_fields = ('username', 'email', 'created_at', 'updated_at')
+
+
+    class ProfileUpdateSerializer(serializers.ModelSerializer):
+        """Write serializer — only updatable fields."""
+        avatar = serializers.ImageField(required=False, allow_null=True)
+
+        class Meta:
+            model = Profile
+            fields = ('first_name', 'last_name', 'phone_number', 'address', 'bio', 'avatar')
+
+        def update(self, instance, validated_data):
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+            instance.save()
+            return instance
