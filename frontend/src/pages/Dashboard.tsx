@@ -7,7 +7,6 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { reviewsApi } from '../api/reviews'
-import { authApi } from '../api/auth'
 import type { ReviewListItem, User as UserType } from '../types'
 import Navbar from '../components/ui/Navbar'
 
@@ -54,27 +53,18 @@ function ScoreBadge({ score }: { score: number | null }) {
 export default function Dashboard() {
   const { user } = useAuth()
   const navigate = useNavigate()
-
   const [reviews, setReviews] = useState<ReviewListItem[]>([])
-  const [reviewsLoading, setReviewsLoading] = useState(true)
-  const [reviewsError, setReviewsError] = useState('')
-
-  // Profile state — loaded separately from auth context
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  
   const [profile, setProfile] = useState<UserType | null>(null)
+  
 
-  // Load reviews
   useEffect(() => {
     reviewsApi.list()
       .then(setReviews)
-      .catch(() => setReviewsError('Failed to load reviews.'))
-      .finally(() => setReviewsLoading(false))
-  }, [])
-
-  // Load full profile (includes first_name, last_name, phone, bio, avatar)
-  useEffect(() => {
-    authApi.profile()
-      .then(setProfile)
-      .catch(() => {})
+      .catch(() => setError('Failed to load reviews.'))
+      .finally(() => setLoading(false))
   }, [])
 
   const completed = reviews.filter(r => r.status === 'completed').length
@@ -89,38 +79,28 @@ export default function Dashboard() {
 
   const initial = user?.username?.[0]?.toUpperCase() ?? '?'
 
-  const fullName = profile?.first_name || profile?.last_name
-    ? `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`.trim()
-    : null
-
   return (
-    <div className="min-h-screen bg-[#1E1E1E] text-[#D4D4D4]">
+    <div className="min-h-screen bg-[#1E1E1E] text-[#D4D4D4] flex flex-col gap-10">
+
+      {/* ── Navbar ── */}
       <Navbar />
 
-      <div className="max-w-[1400px] mx-auto px-12 py-10 flex flex-col gap-8">
+      <div className=" mx-auto px-12 py-10 flex flex-col gap-10 w-full max-w-[1920px]" style={{ paddingLeft:'14px', paddingRight:'14px' }}>
 
         {/* ── Profile Section ── */}
-        <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden">
+        <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden ">
 
-          {/* Section Header */}
-          <div className="flex items-center justify-between px-8 py-4 border-b border-[#3C3C3C] bg-[#2D2D2D]">
+          {/* Section Header with action buttons */}
+          <div className="flex items-center justify-between px-8 py-4 border-b border-[#3C3C3C] bg-[#2D2D2D]" style={{padding:'10px'}}>
             <div className="flex items-center gap-2">
               <User size={14} className="text-[#569CD6]" />
-              <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Profile</span>
+              <span className="text-sm font-mono text-[#6A6A6A] uppercase tracking-wider">Profile</span>
             </div>
-            <div className="flex items-center gap-3">
-              <Link
-                to="/profile/edit"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-[#2D2D2D] border border-[#3C3C3C] text-xs text-[#A6A6A6] font-semibold hover:border-[#569CD6] hover:text-[#569CD6] transition-colors cursor-pointer"
-              >
+            <div className="flex items-center ">
+              {/* Update Info Button — form will be added later */}
+              <button onClick={() => navigate('/profile/edit')} className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-[#2D2D2D] border border-[#3C3C3C] text-sm text-[#A6A6A6] font-semibold hover:border-[#569CD6] hover:text-[#569CD6] transition-colors cursor-pointer h-8 w-35 justify-center">
                 <Edit3 size={13} /> Update Info
-              </Link>
-              <Link
-                to="/reviews/new"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-[#569CD6] text-[#1E1E1E] text-xs font-bold no-underline hover:bg-[#4A90D9] transition-colors"
-              >
-                <Plus size={13} /> New Review
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -128,109 +108,106 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 divide-x divide-[#3C3C3C]">
 
             {/* Left — Avatar + Name */}
-            <div className="flex flex-col items-center justify-center gap-5 px-10 py-10">
+            <div className="flex flex-col items-center justify-center gap-6 " >
 
               {/* Avatar */}
-              <div
-                className="relative group cursor-pointer"
-                onClick={() => navigate('/profile/edit')}
-              >
-                <div className="w-28 h-28 rounded-full bg-[#2D2D2D] border-2 border-[#3C3C3C] overflow-hidden flex items-center justify-center">
-                  {profile?.avatar ? (
-                    <img
-                      src={profile.avatar}
-                      alt="avatar"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-4xl font-extrabold font-mono text-[#569CD6]">
-                      {initial}
-                    </span>
-                  )}
+              <div className="relative group">
+                <div className="w-32 h-32 rounded-full bg-[#2D2D2D] border-2 border-[#3C3C3C] flex items-center justify-center">
+                  <span className="text-4xl font-extrabold font-mono text-[#569CD6]">
+                    {initial}
+                  </span>
                 </div>
-                <div className="absolute inset-0 rounded-full bg-[#1E1E1E]/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                {/* Upload overlay — wired up when form is ready */}
+                <div className="absolute inset-0 rounded-full bg-[#1E1E1E]/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                   <Camera size={20} className="text-[#D4D4D4]" />
                 </div>
               </div>
 
-              {/* Name */}
-              <div className="text-center">
-                <p className="text-xl font-bold text-[#D4D4D4] mb-1">
-                  {fullName ?? user?.username}
+              {/* Name + Username */}
+              <div className="text-center gap-1 flex flex-col">
+                <p className="text-2xl font-bold text-[#D4D4D4]">
+                  {user?.username}
                 </p>
-                <p className="text-sm text-[#6A6A6A] font-mono">@{user?.username}</p>
+                <p className="text-md text-[#6A6A6A] font-mono">@{user?.username}</p>
               </div>
 
-              {/* Stats */}
-              <div className="flex items-center gap-6 pt-2 border-t border-[#3C3C3C] w-full justify-center">
+              {/* Stats row under avatar */}
+              <div className="flex gap-7 pt-2 border-t border-[#3C3C3C] w-full justify-center items-end h-16" style={{marginTop:'25px', paddingTop:'70px'}}>
                 <div className="text-center">
-                  <p className="text-lg font-bold font-mono text-[#D4D4D4]">{reviews.length}</p>
-                  <p className="text-[11px] text-[#6A6A6A]">Reviews</p>
+                  <p className="text-2xl font-bold font-mono text-[#D4D4D4]">{reviews.length}</p>
+                  <p className="text-md text-[#6A6A6A]">Reviews</p>
                 </div>
                 <div className="w-px h-8 bg-[#3C3C3C]" />
                 <div className="text-center">
-                  <p className="text-lg font-bold font-mono text-[#6A9955]">{completed}</p>
-                  <p className="text-[11px] text-[#6A6A6A]">Completed</p>
+                  <p className="text-2xl font-bold font-mono text-[#6A9955]">{completed}</p>
+                  <p className="text-md text-[#6A6A6A]">Completed</p>
                 </div>
                 <div className="w-px h-8 bg-[#3C3C3C]" />
                 <div className="text-center">
                   <p className="text-lg font-bold font-mono text-[#D7BA7D]">
                     {avgScore !== null ? avgScore : '—'}
                   </p>
-                  <p className="text-[11px] text-[#6A6A6A]">Avg Score</p>
+                  <p className="text-md text-[#6A6A6A]">Avg Score</p>
                 </div>
               </div>
             </div>
 
             {/* Right — Personal Info */}
-            <div className="flex flex-col justify-center gap-5 px-10 py-10">
-              <p className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider mb-1">
+            <div className="flex flex-col justify-center gap-5 px-10 py-10" style={{padding:'7px'}}>
+              <p className="text-md font-mono text-[#6A6A6A] uppercase tracking-wider mb-1">
                 Personal Information
               </p>
 
+              {/* Info rows */}
               <div className="flex flex-col gap-4">
 
-                {/* Username */}
                 <div className="flex flex-col gap-1">
-                  <span className="text-[11px] text-[#6A6A6A] font-mono uppercase tracking-wider">Username</span>
-                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5">
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Username</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
                     <User size={13} className="text-[#454545] shrink-0" />
-                    <span className="text-sm text-[#D4D4D4] font-mono">{user?.username ?? '—'}</span>
+                    <span className="text-md text-[#D4D4D4] font-mono">{user?.username ?? '—'}</span>
                   </div>
                 </div>
 
-                {/* Email */}
                 <div className="flex flex-col gap-1">
-                  <span className="text-[11px] text-[#6A6A6A] font-mono uppercase tracking-wider">Email</span>
-                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5">
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Email</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
                     <Mail size={13} className="text-[#454545] shrink-0" />
-                    <span className="text-sm text-[#D4D4D4] font-mono">{user?.email ?? '—'}</span>
+                    <span className="text-md text-[#D4D4D4] font-mono">{user?.email ?? '—'}</span>
                   </div>
                 </div>
 
-                {/* Phone */}
                 <div className="flex flex-col gap-1">
-                  <span className="text-[11px] text-[#6A6A6A] font-mono uppercase tracking-wider">Phone</span>
-                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5">
-                    <span className="text-sm font-mono">
-                      {profile?.phone_number
-                        ? <span className="text-[#D4D4D4]">{profile.phone_number}</span>
-                        : <span className="text-[#454545] italic">Not provided</span>
-                      }
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Member Since</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
+                    <Clock size={13} className="text-[#454545] shrink-0" />
+                    <span className="text-md text-[#D4D4D4] font-mono">
+                      {user?.created_at
+                        ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                        : '—'}
                     </span>
                   </div>
                 </div>
 
-                {/* Bio */}
+                {/* Placeholder fields — filled when Update Info form is ready */}
                 <div className="flex flex-col gap-1">
-                  <span className="text-[11px] text-[#6A6A6A] font-mono uppercase tracking-wider">Bio</span>
-                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 min-h-[40px]">
-                    <span className="text-sm font-mono">
-                      {profile?.bio
-                        ? <span className="text-[#D4D4D4]">{profile.bio}</span>
-                        : <span className="text-[#454545] italic">Not provided</span>
-                      }
-                    </span>
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Phone</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
+                    <span className="text-md text-[#D4D4D4] font-mono">{user?.phone_number ?? '—'}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Address</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
+                    <span className="text-md text-[#D4D4D4] font-mono">{user?.address ?? '—'}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm text-[#6A6A6A] font-mono uppercase tracking-wider">Bio</span>
+                  <div className="flex items-center gap-2 bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2.5 h-10">
+                    <span className="text-md text-[#D4D4D4] font-mono">{user?.bio ?? '—'}</span>
                   </div>
                 </div>
 
@@ -242,62 +219,68 @@ export default function Dashboard() {
         {/* ── Review History Section ── */}
         <div className="flex flex-col gap-4">
 
+          {/* Section Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-[#D4D4D4]">Review History</h2>
-              <p className="text-xs text-[#6A6A6A] font-mono mt-0.5">// {reviews.length} total submissions</p>
+              <h2 className="text-2xl font-bold text-[#D4D4D4]">Review History</h2>
+              <p className="text-md text-[#6A6A6A] font-mono mt-0.5">// {reviews.length} total submissions</p>
             </div>
             <Link
               to="/reviews/new"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-xs no-underline hover:bg-[#4A90D9] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-md no-underline hover:bg-[#4A90D9] transition-colors w-40 justify-center"
             >
               <Plus size={14} /> New Review
             </Link>
           </div>
 
-          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden">
+          {/* Table */}
+          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden w-full ">
 
             {/* Table Header */}
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr_60px] gap-4 px-6 py-3 border-b border-[#3C3C3C] bg-[#2D2D2D]">
-              <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Language</span>
-              <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Status</span>
-              <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Score</span>
-              <span className="text-xs font-mono text-[#6A6A6A] uppercase tracking-wider">Submitted</span>
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr_60px] gap-4 px-6 py-3 border-b border-[#3C3C3C] bg-[#2D2D2D]" style={{padding:'7px'}}>
+              <span className="text-md font-mono text-[#6A6A6A] uppercase tracking-wider">Language</span>
+              <span className="text-md font-mono text-[#6A6A6A] uppercase tracking-wider">Status</span>
+              <span className="text-md font-mono text-[#6A6A6A] uppercase tracking-wider">Score</span>
+              <span className="text-md font-mono text-[#6A6A6A] uppercase tracking-wider">Submitted</span>
               <span />
             </div>
 
-            {reviewsLoading && (
+            {/* Loading */}
+            {loading && (
               <div className="flex items-center justify-center py-20 gap-3">
                 <Loader2 size={18} className="animate-spin text-[#569CD6]" />
                 <span className="text-sm text-[#6A6A6A] font-mono">Loading reviews...</span>
               </div>
             )}
 
-            {!reviewsLoading && reviewsError && (
+            {/* Error */}
+            {!loading && error && (
               <div className="flex items-center justify-center py-20">
-                <span className="text-sm text-[#F44747]">{reviewsError}</span>
+                <span className="text-sm text-[#F44747]">{error}</span>
               </div>
             )}
 
-            {!reviewsLoading && !reviewsError && reviews.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#2D2D2D] border border-[#3C3C3C] flex items-center justify-center">
+            {/* Empty */}
+            {!loading && !error && reviews.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-20 gap-4 h-40" style={{paddingTop:'10px', paddingBottom:'10px'}}>
+                <div className="w-8 h-8 rounded-xl bg-[#2D2D2D] border border-[#3C3C3C] flex items-center justify-center">
                   <Code2 size={22} className="text-[#454545]" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-[#A6A6A6] mb-1">No reviews yet</p>
-                  <p className="text-xs text-[#6A6A6A]">Submit your first code snippet to get started</p>
+                  <p className="text-md font-semibold text-[#A6A6A6] mb-1">No reviews yet</p>
+                  <p className="text-md text-[#6A6A6A]">Submit your first code snippet to get started</p>
                 </div>
                 <Link
                   to="/reviews/new"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-xs no-underline hover:bg-[#4A90D9] transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-sm no-underline hover:bg-[#4A90D9] transition-colors w-40 justify-center"
                 >
                   <Plus size={14} /> New Review
                 </Link>
               </div>
             )}
 
-            {!reviewsLoading && !reviewsError && reviews.map((review, i) => (
+            {/* Rows */}
+            {!loading && !error && reviews.map((review, i) => (
               <div
                 key={review.id}
                 onClick={() => navigate(`/reviews/${review.id}`)}
@@ -314,13 +297,16 @@ export default function Dashboard() {
                     <p className="text-[11px] text-[#6A6A6A] font-mono mt-0.5">#{review.id}</p>
                   </div>
                 </div>
+
                 <StatusBadge status={review.status} />
                 <ScoreBadge score={review.quality_score} />
+
                 <span className="text-xs text-[#6A6A6A] font-mono">
                   {new Date(review.created_at).toLocaleDateString('en-US', {
                     month: 'short', day: 'numeric', year: 'numeric',
                   })}
                 </span>
+
                 <div className="flex justify-end">
                   <ChevronRight size={16} className="text-[#454545]" />
                 </div>

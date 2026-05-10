@@ -25,46 +25,42 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Read-only serializer for returning user data."""
+    # Include profile fields if they exist
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    phone_number = serializers.SerializerMethodField()
+    address = serializers.SerializerMethodField()
+    bio = serializers.SerializerMethodField()
+    avatar = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'created_at')
+        fields = ('id', 'username', 'email', 'created_at', 'first_name', 'last_name', 'phone_number', 'address', 'bio', 'avatar')
         read_only_fields = fields
 
-class ProfileSerializer(serializers.ModelSerializer):
-    """Read serializer — returns profile + user info combined."""
-    username = serializers.CharField(source='user.username', read_only=True)
-    email = serializers.CharField(source='user.email', read_only=True)
-    created_at = serializers.DateTimeField(source='user.created_at', read_only=True)
-    avatar = serializers.ImageField(required=False, allow_null=True)
+    def get_first_name(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.first_name if profile else None
 
-    class Meta:
-        model = Profile
-        fields = (
-            'username',
-            'email',
-            'first_name',
-            'last_name',
-            'phone_number',
-            'address',
-            'bio',
-            'avatar',
-            'created_at',
-            'updated_at',
-        )
-        read_only_fields = ('username', 'email', 'created_at', 'updated_at')
+    def get_last_name(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.last_name if profile else None
 
+    def get_phone_number(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.phone_number if profile else None
 
-class ProfileUpdateSerializer(serializers.ModelSerializer):
-    """Write serializer — only updatable fields."""
-    avatar = serializers.ImageField(required=False, allow_null=True)
+    def get_address(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.address if profile else None
 
-    class Meta:
-        model = Profile
-        fields = ('first_name', 'last_name', 'phone_number', 'address', 'bio', 'avatar')
+    def get_bio(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.bio if profile else None
 
-    def update(self, instance, validated_data):
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        return instance
+    def get_avatar(self, obj):
+        profile = getattr(obj, 'profile', None)
+        if profile and profile.avatar:
+            return profile.avatar.url if hasattr(profile.avatar, 'url') else str(profile.avatar)
+        return None
+

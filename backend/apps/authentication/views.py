@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from .serializers import RegisterSerializer, UserSerializer, ProfileSerializer,ProfileUpdateSerializer
+from .serializers import RegisterSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -51,21 +51,21 @@ class ProfileUpdateView(APIView):
 
     def patch(self, request):
         """Partial update — only send fields you want to change."""
+        # Get or create the profile
         profile, _ = request.user.profile.__class__.objects.get_or_create(
             user=request.user
         )
-        serializer = ProfileUpdateSerializer(
-            profile,
-            data=request.data,
-            partial=True
-        )
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Update only the allowed fields
+        allowed_fields = ('first_name', 'last_name', 'phone_number', 'address', 'bio', 'avatar')
+        for field in allowed_fields:
+            if field in request.data:
+                setattr(profile, field, request.data[field])
+        
+        profile.save()
 
-        serializer.save()
-
-        # Return full profile after update
+        # Return full user data with profile info included
         return Response(
-            ProfileSerializer(profile).data,
+            UserSerializer(request.user).data,
             status=status.HTTP_200_OK
         )
