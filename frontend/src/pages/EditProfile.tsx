@@ -1,7 +1,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Camera, Save, Loader2, User, Mail, Phone, MapPin, FileText } from 'lucide-react'
+import { ArrowLeft, Camera, Save, Loader2, User, Mail} from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
 import { authApi } from '../api/auth'

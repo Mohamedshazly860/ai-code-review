@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { reviewsApi } from '../api/reviews'
-import type { ReviewListItem, User as UserType } from '../types'
+import type { ReviewListItem } from '../types'
 import Navbar from '../components/ui/Navbar'
 
 const LANGUAGE_LABELS: Record<string, string> = {
@@ -57,7 +57,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   
-  const [profile, setProfile] = useState<UserType | null>(null)
   
 
   useEffect(() => {
