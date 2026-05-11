@@ -30,20 +30,20 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#252526] border-b border-[#3C3C3C] sticky top-0 z-50">
-      <div className="max-w-[1920px] mx-auto px-12 h-14 flex items-center justify-between">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 h-14 flex items-center justify-between">
 
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center font-mono font-bold text-xl no-underline text-[#D4D4D4]"
-          style={{marginLeft:'15px'}}
->
-          <Terminal size={22} className="text-[#569CD6]" />
-          Dev<span className="text-[#569CD6]">Insight</span>
+          className="flex items-center font-mono font-bold text-lg sm:text-xl no-underline text-[#D4D4D4]"
+          
+          >
+          <Terminal size={20} className="text-[#569CD6]" />
+          <span className=" sm:inline ml-1">Dev<span className="text-[#569CD6]">Insight</span></span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className=" md:flex items-center gap-6" style={{marginRight:'15px'}}>
+        <div className="hidden md:flex items-center gap-4 lg:gap-6" style={{marginRight:'15px'}}>
 
           {/* ── Authenticated Links ── */}
           {user ? (
@@ -52,7 +52,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`inline-flex items-center gap-1.5 text-md transition-colors no-underline font-medium
+                  className={`relative inline-flex items-center gap-1.5 text-sm md:text-md transition-colors no-underline font-medium
                     ${isActive(link.href)
                       ? 'text-[#569CD6]'
                       : 'text-[#A6A6A6] hover:text-[#D4D4D4]'
@@ -90,26 +90,26 @@ export default function Navbar() {
             /* ── Public Links ── */
             <>
               {NAV_LINKS_PUBLIC.map(link => (
-                <a
+                <Link
                   key={link.href}
-                  href={link.href}
-                  className="text-md text-[#A6A6A6] hover:text-[#D4D4D4] transition-colors no-underline"
+                  to={link.href}
+                  className="text-sm md:text-md text-[#A6A6A6] hover:text-[#D4D4D4] transition-colors no-underline"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
 
               <div className="w-px h-5 bg-[#3C3C3C]" />
 
               <Link
                 to="/login"
-                className="px-4 py-1.5 rounded-md border border-[#3C3C3C] text-[#D4D4D4] text-md no-underline hover:border-[#569CD6] transition-colors w-20 h-8 text-center justify-center flex items-center"
+                className="px-3 sm:px-4 py-1.5 rounded-md border border-[#3C3C3C] text-[#D4D4D4] text-xs md:text-md no-underline hover:border-[#569CD6] transition-colors h-8 text-center justify-center flex items-center whitespace-nowrap"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-1.5 rounded-md bg-[#569CD6] text-[#1E1E1E] text-md font-bold no-underline hover:bg-[#4A90D9] transition-colors w-28 h-7 text-center" 
+                className="px-3 sm:px-4 py-1.5 rounded-md bg-[#569CD6] text-[#1E1E1E] text-xs md:text-md font-bold no-underline hover:bg-[#4A90D9] transition-colors h-8 text-center whitespace-nowrap" 
               >
                 Get Started
               </Link>

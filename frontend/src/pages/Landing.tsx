@@ -60,44 +60,44 @@ export default function Landing() {
       <Navbar />
 
       {/* Hero */}
-      <div className="w-full flex justify-center">
-        <div className="grid grid-cols-2 gap-12 items-center w-full max-w-[1400px] px-12 py-12">
+      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center w-full max-w-[1400px] py-8 md:py-12">
 
         {/* Left */}
-        <div className='flex flex-col gap-3'>
-          <div className="inline-flex gap-4 px-3.5 py-1 rounded-full border border-[#3C3C3C] bg-[#252526] text-xs text-[#A6A6A6] mb-4 font-mono w-70 h-6 items-center">
+        <div className='flex flex-col gap-3 text-center md:text-left'>
+          <div className="inline-flex gap-4 px-3.5 py-1 rounded-full border border-[#3C3C3C] bg-[#252526] text-xs text-[#A6A6A6] mb-4 font-mono h-6 items-center justify-center md:justify-start w-auto">
             <span className="w-4 h-4 rounded-full bg-[#6A9955] inline-block" />
             Powered by Groq · Llama 3.3 70B
           </div>
 
-          <h1 className="text-5xl font-extrabold leading-[1.2] tracking-tight mb-3 text-[#D4D4D4]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.2] tracking-tight mb-3 text-[#D4D4D4]">
             AI-powered code review<br />
             <span className="text-[#569CD6]">in seconds</span>
           </h1>
 
-          <p className="text-md text-[#A6A6A6] leading-relaxed mb-6 max-w-[420px]">
+          <p className="text-sm sm:text-md text-[#A6A6A6] leading-relaxed mb-6 max-w-[420px]">
             Submit your code, get structured feedback — issues, suggestions, and a quality score.
             Built for developers who ship clean code.
           </p>
 
-          <div className="flex gap-5 mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mb-6 w-full md:w-auto justify-center md:justify-start">
             <Link
               to="/register"
-              className="inline-flex items-center px-5 py-2 rounded-3xl text-sm font-bold no-underline transition-colors bg-[#569CD6] text-[#1E1E1E] hover:bg-[#4A90D9] w-32 h-12 items-center justify-center "
+              className="inline-flex items-center px-5 py-2 rounded-3xl text-sm font-bold no-underline transition-colors bg-[#569CD6] text-[#1E1E1E] hover:bg-[#4A90D9] w-full sm:w-auto h-12 items-center justify-center "
             >
               Start reviewing
             </Link>
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-3xl text-sm border no-underline transition-colors bg-[#252526] text-[#D4D4D4] border-[#3C3C3C] hover:border-[#454545] w-32 h-12 items-center justify-center "
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-3xl text-sm border no-underline transition-colors bg-[#252526] text-[#D4D4D4] border-[#3C3C3C] hover:border-[#454545] w-full sm:w-auto h-12 items-center justify-center "
             >
               Sign in
             </Link>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 md:gap-3 justify-center md:justify-start">
             {LANGUAGES.map(lang => (
-              <span key={lang} className="rounded-sm text-sm font-mono px-2 py-0.5 bg-[#2D2D2D] border border-[#3C3C3C] text-[#A6A6A6] w-fit h-6 flex items-center justify-center ">
+              <span key={lang} className="rounded-sm text-xs md:text-sm font-mono px-2 py-0.5 bg-[#2D2D2D] border border-[#3C3C3C] text-[#A6A6A6] w-fit h-6 flex items-center justify-center ">
                 {lang}
               </span>
             ))}
@@ -105,7 +105,7 @@ export default function Landing() {
         </div>
 
         {/* Right — Code Card */}
-        <div className="flex flex-col bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden max-h-[400px] gap-6 ">
+        <div className="hidden md:flex flex-col bg-[#252526] border border-[#3C3C3C] rounded-xl overflow-hidden max-h-[400px] gap-6 ">
 
           {/* Title bar */}
           <div className="bg-[#2D2D2D] border-b border-[#3C3C3C] px-4 py-2.5 flex items-center gap-2 h-7" style={{ paddingLeft: '5px' }}>
@@ -184,8 +184,8 @@ export default function Landing() {
           {/* Score */}
           <div className="px-5 py-3.5 flex items-center gap-4 bg-[#2D2D2D]" style={{paddingLeft:'5px', paddingRight:'5px'}}>
             <div>
-              <div className="text-[11px] text-[#6A6A6A] font-mono mb-0.5">Quality Score</div>
-              <div className="text-[22px] font-extrabold text-[#D7BA7D] font-mono">22</div>
+          <div className="text-[11px] text-[#6A6A6A] font-mono mb-0.5">Quality Score</div>
+              <div className="text-xl md:text-[22px] font-extrabold text-[#D7BA7D] font-mono">22</div>
             </div>
             <div className="flex-1 h-1 bg-[#3C3C3C] rounded-full">
               <div className="w-[22%] h-full bg-[#D7BA7D] rounded-full" />
@@ -197,8 +197,8 @@ export default function Landing() {
       </div>
 
       {/* Stats */}
-      <div className="w-full flex justify-center h-20 ">
-      <div className="grid grid-cols-3 border-t border-b border-[#3C3C3C] w-full" style={{ gap: '1px', background: '#3C3C3C' }}>
+      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-b border-[#3C3C3C] w-full max-w-[1400px]" style={{ gap: '1px', background: '#3C3C3C' }}>
         {[
           { num: '15+', label: 'Languages supported' },
           { num: '<2s', label: 'Average review time' },
@@ -213,29 +213,29 @@ export default function Landing() {
       </div>
 
       {/* Features */}
-      <div className="w-full flex justify-center">
-      <div className="grid grid-cols-4 gap-3 w-full max-w-[1400px] px-12 py-12">
+      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full max-w-[1400px] py-8 md:py-12">
         {FEATURES.map(({ color, title, desc, icon }) => (
           <div key={title} className="bg-[#252526] border border-[#3C3C3C] rounded-lg p-4 hover:border-[#454545] transition-colors flex flex-col items-center gap-1 text-center" style={{padding:'5px'}}>
             <div className={`w-8 h-8 rounded ${color} flex items-center justify-center mb-2`}>
               <svg width="20" height="20" viewBox="0 0 16 16" fill="none">{icon}</svg>
             </div>
-            <h3 className="text-md font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
-            <p className="text-sm text-[#6A6A6A] leading-relaxed">{desc}</p>
+            <h3 className="text-sm md:text-md font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
+            <p className="text-xs md:text-sm text-[#6A6A6A] leading-relaxed">{desc}</p>
           </div>
         ))}
       </div>
       </div>
 
       {/* How it works */}
-      <div className="w-full flex justify-center">
-      <div className="w-full max-w-[1400px] px-12 pb-12">
-        <div className="text-[14px] font-mono text-[#569CD6] uppercase tracking-widest mb-6">
+      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
+      <div className="w-full max-w-[1400px] pb-8 md:pb-12">
+        <div className="text-xs sm:text-sm md:text-[14px] font-mono text-[#569CD6] uppercase tracking-widest mb-6 text-center md:text-left">
           // how it works
         </div>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {STEPS.map(({ num, title, desc }) => (
-            <div key={num} className="bg-[#252526] border border-[#3C3C3C] rounded-lg flex flex-col items-start gap-2 p-5 hover:border-[#454545] transition-colors" style={{padding:'5px'}}>
+            <div key={num} className="bg-[#252526] border border-[#3C3C3C] rounded-lg flex flex-col items-start gap-2 p-5 hover:border-[#454545] transition-colors text-center md:text-left" style={{padding:'5px'}}>
               <div className="text-[12px] font-mono text-[#A6A6A6] mb-2">{num}</div>
               <h3 className="text-md font-bold text-[#D4D4D4] mb-1.5">{title}</h3>
               <p className="text-sm text-[#6A6A6A] leading-relaxed">{desc}</p>
@@ -246,12 +246,12 @@ export default function Landing() {
       </div>
 
       {/* CTA */}
-      <div className="w-full flex justify-center h-40 ">
-      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-10 text-center w-full flex flex-col items-center justify-center gap-2" style={{padding:'5px'}}>
-        <h2 className="text-2xl font-extrabold text-[#D4D4D4] tracking-tight">
+      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
+      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-8 md:py-10 text-center w-full max-w-[1400px] flex flex-col items-center justify-center gap-2" style={{padding:'5px'}}>
+        <h2 className="text-xl sm:text-2xl md:text-2xl font-extrabold text-[#D4D4D4] tracking-tight">
           Ready to write cleaner code?
         </h2>
-        <p className="text-md text-[#6A6A6A] mb-5">Free to use. No credit card required.</p>
+        <p className="text-sm sm:text-md text-[#6A6A6A] mb-5">Free to use. No credit card required.</p>
         <Link
           to="/register"
           className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#569CD6] text-[#1E1E1E] no-underline font-bold text-sm hover:bg-[#4A90D9] transition-colors h-8 "
@@ -262,16 +262,16 @@ export default function Landing() {
       </div>
 
       {/* Footer */}
-      <footer className=" flex items-center justify-between text-sm border-t border-[#3C3C3C] ">
-        <div className="font-mono text-[#6A6A6A] flex items-center w-65">
+      <footer className="flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm border-t border-[#3C3C3C] px-4 sm:px-6 md:px-8 py-6 gap-4 sm:gap-0 text-center sm:text-left ">
+        <div className="font-mono text-[#6A6A6A] flex items-center w-auto">
           ai<span className="text-[#569CD6]">.</span>review
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-4 sm:gap-6 order-3 sm:order-2 w-full sm:w-auto justify-center sm:justify-start">
           {['GitHub', 'Docs', 'Privacy'].map(l => (
             <span key={l} className="text-[#6A6A6A] cursor-pointer hover:text-[#A6A6A6] transition-colors">{l}</span>
           ))}
         </div>
-        <div className="text-[#3C3C3C] font-mono">built with Django + React · 2026</div>
+        <div className="text-[#3C3C3C] font-mono text-xs order-2 sm:order-3">built with Django + React · 2026</div>
       </footer>
     </div>
   )
