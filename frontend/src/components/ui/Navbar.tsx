@@ -103,13 +103,13 @@ export default function Navbar() {
 
               <Link
                 to="/login"
-                className="px-3 sm:px-4 py-1.5 rounded-md border border-[#3C3C3C] text-[#D4D4D4] text-xs md:text-md no-underline hover:border-[#569CD6] transition-colors h-8 text-center justify-center flex items-center whitespace-nowrap"
+                className="px-3 sm:px-4 py-1.5 rounded-lg border border-[#3C3C3C] text-[#D4D4D4] text-md md:text-md no-underline hover:border-[#569CD6] transition-colors h-8 text-center justify-center flex items-center whitespace-nowrap w-24"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="px-3 sm:px-4 py-1.5 rounded-md bg-[#569CD6] text-[#1E1E1E] text-xs md:text-md font-bold no-underline hover:bg-[#4A90D9] transition-colors h-8 text-center whitespace-nowrap" 
+                className="px-3 sm:px-4 py-1.5 rounded-lg bg-[#569CD6] text-[#1E1E1E] text-md md:text-md font-bold no-underline hover:bg-[#4A90D9] transition-colors h-8 text-center whitespace-nowrap w-24 flex items-center justify-center" 
               >
                 Get Started
               </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#252526] border-t border-[#3C3C3C] px-6 py-4 flex flex-col gap-3">
+        <div className="md:hidden bg-[#252526] border-t border-[#3C3C3C] px-4 sm:px-6 py-4 flex flex-col gap-3">
           {user ? (
             <>
               <div className="flex items-center gap-2 pb-3 border-b border-[#3C3C3C]">

@@ -51,11 +51,11 @@ export default function Login() {
   return (
     <>
       <Navbar />
-    <div className="min-h-screen bg-[#1E1E1E] grid grid-cols-2">
+    <div className="min-h-screen bg-[#1E1E1E] grid grid-cols-1 md:grid-cols-2">
         
 
       {/* ── Left Panel ── */}
-      <div className="flex flex-col justify-between px-16 py-14 bg-[#252526] border-r border-[#3C3C3C] items-center justify-center ">
+      <div className="hidden md:flex flex-col justify-between px-8 lg:px-16 py-14 bg-[#252526] border-r border-[#3C3C3C] items-center justify-center">
         <div>
          <div className="flex items-center gap-3">
           <Terminal size={28} className="text-[#569CD6]" />
@@ -63,13 +63,13 @@ export default function Login() {
             Dev<span className="text-[#569CD6]">Insight</span>
           </span>
         </div>
-          <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-[#D4D4D4] mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-[#D4D4D4] mb-6">
             Code review,<br />
             <span className="text-[#569CD6]">supercharged </span>
             by AI
           </h1>
 
-          <p className="text-base text-[#A6A6A6] leading-relaxed max-w-sm mb-12">
+          <p className="text-sm md:text-base text-[#A6A6A6] leading-relaxed max-w-sm mb-12">
             Submit your code and get instant structured feedback —
             issues, suggestions, and a quality score in seconds.
           </p>
@@ -108,29 +108,29 @@ export default function Login() {
       </div>
 
       {/* ── Right Panel ── */}
-      <div className="flex flex-col items-center justify-center px-16 py-14 bg-[#1E1E1E]">
+      <div className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-8 md:py-14 bg-[#1E1E1E]">
 
         <div className="w-full max-w-md gap-3 flex flex-col">
 
           {/* Header */}
-          <div className="mb-10">
-            <h2 className="text-4xl font-bold text-[#D4D4D4] mb-1">Welcome back</h2>
-            <p className="text-md text-[#6A6A6A] font-mono">// sign in to your account</p>
+          <div className="mb-6 md:mb-10">
+            <h2 className="text-2xl md:text-4xl font-bold text-[#D4D4D4] mb-1">Welcome back</h2>
+            <p className="text-xs md:text-md text-[#6A6A6A] font-mono">// sign in to your account</p>
           </div>
 
           {/* Card */}
-          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl flex flex-col justify-center" style={{padding:'5px', height:'300px'}}>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-12">
+          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl flex flex-col justify-center" style={{padding:'5px', minHeight:'250px'}}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 md:gap-12 p-4 md:p-0">
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-md text-[#A6A6A6] font-medium">Username</label>
+                <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Username</label>
                 <input
                   type="text"
                   placeholder="your_username"
                   value={form.username}
                   autoComplete="username"
                   onChange={e => setForm(p => ({ ...p, username: e.target.value }))}
-                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-md font-sans outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A] h-10"
+                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md font-sans outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A] h-9 md:h-10"
                   style={{padding:'5px'}}
                 />
                 {errors.username && (
@@ -139,14 +139,14 @@ export default function Login() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-md text-[#A6A6A6] font-medium">Password</label>
+                <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Password</label>
                 <input
                   type="password"
                   placeholder="••••••••"
                   value={form.password}
                   autoComplete="current-password"
                   onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
-                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-sm font-sans outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A] h-11"
+                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md font-sans outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A] h-9 md:h-11"
                   style={{padding:'5px'}}
                 />
                 {errors.password && (
@@ -157,7 +157,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 py-3 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-md flex items-center justify-center gap-2 hover:bg-[#4A90D9] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer border-none h-10"
+                className="w-full mt-2 py-2 md:py-3 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-sm md:text-md flex items-center justify-center gap-2 hover:bg-[#4A90D9] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer border-none h-9 md:h-10"
               >
                 {loading ? (
                   <span className="w-4 h-4 rounded-full border-2 border-[#1E1E1E] border-t-transparent animate-spin " />
@@ -170,7 +170,7 @@ export default function Login() {
           </div>
 
           {/* Footer link */}
-          <p className="text-center mt-6 text-md text-[#6A6A6A]">
+          <p className="text-center mt-4 md:mt-6 text-sm md:text-md text-[#6A6A6A]">
             No account?{' '}
             <Link to="/register" className="text-[#569CD6] no-underline hover:text-[#4A90D9] transition-colors">
               Create one

@@ -65,7 +65,7 @@ export default function Landing() {
 
         {/* Left */}
         <div className='flex flex-col gap-3 text-center md:text-left'>
-          <div className="inline-flex gap-4 px-3.5 py-1 rounded-full border border-[#3C3C3C] bg-[#252526] text-xs text-[#A6A6A6] mb-4 font-mono h-6 items-center justify-center md:justify-start w-auto">
+          <div className="inline-flex gap-4 px-3.5 py-1 rounded-full border border-[#3C3C3C] bg-[#252526] text-xs text-[#A6A6A6] mb-4 font-mono h-6 items-center justify-center md:justify-start w-75" style={{padding:'8px'}}>
             <span className="w-4 h-4 rounded-full bg-[#6A9955] inline-block" />
             Powered by Groq · Llama 3.3 70B
           </div>
@@ -83,13 +83,13 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mb-6 w-full md:w-auto justify-center md:justify-start">
             <Link
               to="/register"
-              className="inline-flex items-center px-5 py-2 rounded-3xl text-sm font-bold no-underline transition-colors bg-[#569CD6] text-[#1E1E1E] hover:bg-[#4A90D9] w-full sm:w-auto h-12 items-center justify-center "
+              className="inline-flex items-center px-5 py-2 rounded-3xl text-sm font-bold no-underline transition-colors bg-[#569CD6] text-[#1E1E1E] hover:bg-[#4A90D9] w-36 h-12 items-center justify-center "
             >
               Start reviewing
             </Link>
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-3xl text-sm border no-underline transition-colors bg-[#252526] text-[#D4D4D4] border-[#3C3C3C] hover:border-[#454545] w-full sm:w-auto h-12 items-center justify-center "
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-3xl text-sm border no-underline transition-colors bg-[#252526] text-[#D4D4D4] border-[#3C3C3C] hover:border-[#454545] w-22 h-12 items-center justify-center"
             >
               Sign in
             </Link>
@@ -197,8 +197,8 @@ export default function Landing() {
       </div>
 
       {/* Stats */}
-      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-b border-[#3C3C3C] w-full max-w-[1400px]" style={{ gap: '1px', background: '#3C3C3C' }}>
+      <div className="w-full flex justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-b border-[#3C3C3C] w-full max-w-[1400px] mx-4 sm:mx-6 md:mx-8" style={{ gap: '1px', background: '#3C3C3C' }}>
         {[
           { num: '15+', label: 'Languages supported' },
           { num: '<2s', label: 'Average review time' },
@@ -213,8 +213,8 @@ export default function Landing() {
       </div>
 
       {/* Features */}
-      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full max-w-[1400px] py-8 md:py-12">
+      <div className="w-full flex justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full max-w-[1400px] mx-4 sm:mx-6 md:mx-8 py-8 md:py-12">
         {FEATURES.map(({ color, title, desc, icon }) => (
           <div key={title} className="bg-[#252526] border border-[#3C3C3C] rounded-lg p-4 hover:border-[#454545] transition-colors flex flex-col items-center gap-1 text-center" style={{padding:'5px'}}>
             <div className={`w-8 h-8 rounded ${color} flex items-center justify-center mb-2`}>
@@ -228,8 +228,8 @@ export default function Landing() {
       </div>
 
       {/* How it works */}
-      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
-      <div className="w-full max-w-[1400px] pb-8 md:pb-12">
+      <div className="w-full flex justify-center">
+      <div className="w-full max-w-[1400px] mx-4 sm:mx-6 md:mx-8 pb-8 md:pb-12">
         <div className="text-xs sm:text-sm md:text-[14px] font-mono text-[#569CD6] uppercase tracking-widest mb-6 text-center md:text-left">
           // how it works
         </div>
@@ -246,8 +246,8 @@ export default function Landing() {
       </div>
 
       {/* CTA */}
-      <div className="w-full flex justify-center px-4 sm:px-6 md:px-8">
-      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-8 md:py-10 text-center w-full max-w-[1400px] flex flex-col items-center justify-center gap-2" style={{padding:'5px'}}>
+      <div className="w-full flex justify-center">
+      <div className="bg-[#252526] border-t border-b border-[#3C3C3C] py-8 md:py-10 text-center w-full max-w-[1400px] mx-4 sm:mx-6 md:mx-8 flex flex-col items-center justify-center gap-2" style={{padding:'5px'}}>
         <h2 className="text-xl sm:text-2xl md:text-2xl font-extrabold text-[#D4D4D4] tracking-tight">
           Ready to write cleaner code?
         </h2>

@@ -67,10 +67,10 @@ export default function Register() {
   return (
     <>    
     <Navbar />
-    <div className="min-h-screen bg-[#1E1E1E] grid grid-cols-2">
+    <div className="min-h-screen bg-[#1E1E1E] grid grid-cols-1 md:grid-cols-2">
 
       {/* ── Left Panel ── */}
-      <div className="flex flex-col justify-center items-center px-16 py-14 bg-[#252526] border-r border-[#3C3C3C]">
+      <div className="hidden md:flex flex-col justify-center items-center px-8 lg:px-16 py-14 bg-[#252526] border-r border-[#3C3C3C]">
 
 
         {/* Center Content */}
@@ -83,13 +83,13 @@ export default function Register() {
           </span>
         </div>
 
-          <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-[#D4D4D4] mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-[#D4D4D4] mb-6">
             Start shipping<br />
             <span className="text-[#569CD6]">cleaner </span>
             code today
           </h1>
 
-          <p className="text-base text-[#A6A6A6] leading-relaxed max-w-sm mb-12">
+          <p className="text-sm md:text-base text-[#A6A6A6] leading-relaxed max-w-sm mb-12">
             Join DevInsight and get AI-powered code reviews in seconds.
             Catch bugs, improve quality, and level up your craft.
           </p>
@@ -128,30 +128,30 @@ export default function Register() {
       </div>
 
       {/* ── Right Panel ── */}
-      <div className="flex flex-col items-center justify-center px-16 py-14 bg-[#1E1E1E] ">
+      <div className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-8 md:py-14 bg-[#1E1E1E]">
 
         <div className="w-full max-w-md gap-3 flex flex-col">
 
           {/* Header */}
-          <div className="mb-8 gap-1.5 flex flex-col">
-            <h2 className="text-2xl font-bold text-[#D4D4D4] mb-1">Create your account</h2>
-            <p className="text-sm text-[#6A6A6A] font-mono">// free forever · no credit card needed</p>
+          <div className="mb-6 md:mb-8 gap-1.5 flex flex-col">
+            <h2 className="text-2xl md:text-2xl font-bold text-[#D4D4D4] mb-1">Create your account</h2>
+            <p className="text-xs md:text-sm text-[#6A6A6A] font-mono">// free forever · no credit card needed</p>
           </div>
 
           {/* Card */}
-          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl p-8" style={{padding:'8px'}}>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="bg-[#252526] border border-[#3C3C3C] rounded-xl p-4 md:p-8" style={{padding:'8px'}}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-5">
 
               {/* Username */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-md text-[#A6A6A6] font-medium">Username</label>
+                <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Username</label>
                 <input
                   type="text"
                   placeholder="cool_dev_42"
                   value={form.username}
                   autoComplete="username"
                   onChange={e => setForm(p => ({ ...p, username: e.target.value }))}
-                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
+                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
                   style={{padding:'5px'}}
                 />
                 {errors.username && (
@@ -161,14 +161,14 @@ export default function Register() {
 
               {/* Email */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-md text-[#A6A6A6] font-medium">Email</label>
+                <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Email</label>
                 <input
                   type="email"
                   placeholder="dev@example.com"
                   value={form.email}
                   autoComplete="email"
                   onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
+                  className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
                   style={{padding:'5px'}}
                 
                 />
@@ -177,17 +177,17 @@ export default function Register() {
                 )}
               </div>
 
-              {/* Password + Confirm side by side */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* Password + Confirm side by side (or stacked on mobile) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 md:gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-md text-[#A6A6A6] font-medium">Password</label>
+                  <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Password</label>
                   <input
                     type="password"
                     placeholder="min. 8 chars"
                     value={form.password}
                     autoComplete="new-password"
                     onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
-                    className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
+                    className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
                     style={{padding:'5px'}}
                   
                   />
@@ -196,14 +196,14 @@ export default function Register() {
                   )}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-md text-[#A6A6A6] font-medium">Confirm</label>
+                  <label className="text-sm md:text-md text-[#A6A6A6] font-medium">Confirm</label>
                   <input
                     type="password"
                     placeholder="••••••••"
                     value={form.confirm}
                     autoComplete="new-password"
                     onChange={e => setForm(p => ({ ...p, confirm: e.target.value }))}
-                    className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-3 text-[#D4D4D4] text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
+                    className="w-full bg-[#2D2D2D] border border-[#3C3C3C] rounded-md px-4 py-2 md:py-3 text-[#D4D4D4] text-sm md:text-md outline-none focus:border-[#569CD6] transition-colors placeholder:text-[#6A6A6A]"
                     style={{padding:'5px'}}
                   />
                   {errors.confirm && (
@@ -224,7 +224,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-1 py-3 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-md flex items-center justify-center gap-2 hover:bg-[#4A90D9] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer border-none h-10"
+                className="w-full mt-1 py-2 md:py-3 rounded-lg bg-[#569CD6] text-[#1E1E1E] font-bold text-sm md:text-md flex items-center justify-center gap-2 hover:bg-[#4A90D9] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer border-none h-9 md:h-10"
               >
                 {loading ? (
                   <span className="w-4 h-4 rounded-full border-2 border-[#1E1E1E] border-t-transparent animate-spin" />
@@ -237,7 +237,7 @@ export default function Register() {
           </div>
 
           {/* Footer link */}
-          <p className="text-center mt-6 text-sm text-[#6A6A6A]">
+          <p className="text-center mt-4 md:mt-6 text-xs md:text-sm text-[#6A6A6A]">
             Already have an account?{' '}
             <Link to="/login" className="text-[#569CD6] no-underline hover:text-[#4A90D9] transition-colors">
               Sign in
