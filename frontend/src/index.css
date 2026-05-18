@@ -2,8 +2,11 @@
 
 * {
   box-sizing: border-box;
+}
+
+/* Reset only default margins on block elements that benefit from it */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, blockquote, pre, hr, form {
   margin: 0;
-  padding: 0;
 }
 
 html, body, #root {
