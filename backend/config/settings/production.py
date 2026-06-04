@@ -56,3 +56,10 @@ DATABASES = {
         'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.environ.get('REDIS_URL', ''),
+    }
+}
