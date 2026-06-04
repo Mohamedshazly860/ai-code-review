@@ -3,10 +3,8 @@ name: Deploy to HuggingFace
 on:
   push:
     branches: [main]
-    paths:
-      - 'backend/**'
-      - 'Dockerfile'
 
+    
 jobs:
   deploy:
     runs-on: ubuntu-latest
