@@ -11,8 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY backend/requirements/base.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/requirements/base.txt requirements/base.txt
+COPY backend/requirements/production.txt requirements/production.txt
+RUN pip install --no-cache-dir -r requirements/production.txt
 
 COPY backend/ .
 
