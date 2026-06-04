@@ -3,6 +3,7 @@
 from .base import *  # noqa: F401, F403
 from decouple import config
 import os
+import ssl
 
 DEBUG = False
 
@@ -62,4 +63,12 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': os.environ.get('REDIS_URL', ''),
     }
+}
+
+
+CELERY_BROKER_USE_SSL = {
+    'ssl_cert_reqs': ssl.CERT_NONE
+}
+CELERY_REDIS_BACKEND_USE_SSL = {
+    'ssl_cert_reqs': ssl.CERT_NONE
 }
