@@ -186,8 +186,8 @@ REST_FRAMEWORK = {
 #  AI Configuration (Groq)
 # ─────────────────────────────────────────────
 AI_API_KEY = config('AI_API_KEY', default='')
-AI_BASE_URL = config('GROQ_BASE_URL', default='https://api.groq.com/openai/v1')
-AI_MODEL = config('GROQ_MODEL', default='llama-3.3-70b-versatile')
+AI_BASE_URL = config('AI_BASE_URL', default='https://api.groq.com/openai/v1')
+AI_MODEL = config('AI_MODEL', default='openai/gpt-oss-120b')
 # ─────────────────────────────────────────────
 # Simple JWT
 # ─────────────────────────────────────────────
