@@ -59,6 +59,7 @@ export interface Review {
   suggestions: Suggestion[]
   quality_score: number | null
   summary: string
+  question_answer: string
   created_at: string
   updated_at: string
 }

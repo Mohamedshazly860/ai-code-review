@@ -396,6 +396,39 @@ export default function Review() {
                   )}
                 </div>
 
+                {/* Question Answer — only show if user asked a question and AI answered */}
+                {review.question && review.question_answer && (
+                  <div className="px-6 py-5 border-b border-[#3C3C3C]">
+                    <div className="flex items-center gap-2 mb-3">
+                      {/* Question the user asked */}
+                      <div className="w-full">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs font-mono text-[#569CD6] uppercase tracking-wider">
+                            Your Question
+                          </span>
+                        </div>
+                        <div className="bg-[#2D2D2D] border border-[#3C3C3C] rounded-lg px-4 py-3 mb-3">
+                          <p className="text-xs text-[#A6A6A6] italic leading-relaxed">
+                            {review.question}
+                          </p>
+                        </div>
+
+                        {/* AI Answer */}
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs font-mono text-[#6A9955] uppercase tracking-wider">
+                            AI Answer
+                          </span>
+                        </div>
+                        <div className="bg-[#1E1E1E] border border-[#6A9955]/30 rounded-lg px-4 py-3">
+                          <p className="text-sm text-[#D4D4D4] leading-relaxed whitespace-pre-wrap">
+                            {review.question_answer}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Issues */}
                 <div className="px-4 sm:px-6 py-4 md:py-5 border-b border-[#3C3C3C]">
                   <div className="flex items-center gap-2 mb-3 md:mb-4">
