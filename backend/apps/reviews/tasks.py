@@ -42,11 +42,12 @@ def process_review_task(self, review_id: int) -> dict:
             review.suggestions = result['suggestions']
             review.quality_score = result['quality_score']
             review.summary = result['summary']
+            review.question_answer = result['question_answer']
             review.raw_response = result['raw_response']
             review.status = Review.Status.COMPLETED
             review.save(update_fields=[
                 'issues', 'suggestions', 'quality_score',
-                'summary', 'raw_response', 'status', 'updated_at'
+                'summary', 'question_answer', 'raw_response', 'status', 'updated_at'
             ])
 
         from services.cache_service import set_cached_review_detail, invalidate_review_list

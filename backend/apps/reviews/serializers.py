@@ -70,6 +70,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'suggestions',
             'quality_score',
             'summary',
+            'question_answer',
             'created_at',
             'updated_at',
         )
