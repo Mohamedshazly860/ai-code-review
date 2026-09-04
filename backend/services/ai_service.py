@@ -88,6 +88,8 @@ class AIService:
         logger.info("Response received, parsing...")
         return self._parse_response(raw_content)
 
+    # backend/services/ai_service.py — update _parse_response method
+
     def _parse_response(self, raw_content: str) -> dict:
         content = raw_content.strip()
         if content.startswith('```'):
@@ -97,15 +99,21 @@ class AIService:
         try:
             parsed = json.loads(content)
         except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse response as JSON: {str(e)}")
+            logger.error(f"Failed to parse LLM response as JSON: {str(e)}")
             logger.error(f"Raw content: {raw_content[:500]}")
             raise AIServiceError("AI returned an unexpected response format.")
+
+        # Handle question_answer — could be null string or actual null
+        question_answer = parsed.get('question_answer')
+        if question_answer in ('null', 'NULL', '', None):
+            question_answer = ''
 
         return {
             'issues': parsed.get('issues', []),
             'suggestions': parsed.get('suggestions', []),
             'quality_score': self._safe_score(parsed.get('quality_score')),
             'summary': parsed.get('summary', ''),
+            'question_answer': question_answer,
             'raw_response': raw_content,
         }
 

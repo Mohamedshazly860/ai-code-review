@@ -6,33 +6,17 @@ def build_review_prompt(
     language: str,
     question: str = ''
 ) -> str:
-    """
-    Builds the prompt sent to the LLM.
-
-    Why a dedicated function for this?
-    Prompts are business logic. They'll evolve — you'll tweak wording,
-    add examples, adjust the JSON schema. Keeping them here means
-    you change one place and the whole system benefits.
-
-    The prompt instructs the LLM to return strict JSON.
-    This is critical — unstructured text can't be stored in our model fields.
-    """
-
-    # Get the human-readable language name (e.g., "Python" not "python")
     language_display = dict(Review.Language.choices).get(language, language)
-
-    # Use the user's question or fall back to the default
-    user_question = question.strip() if question.strip() else "Review this code"
+    user_question = question.strip() if question.strip() else ''
 
     prompt = f"""You are an expert {language_display} code reviewer.
-Your task is to analyze the following code and provide structured feedback.
-
-User's request: {user_question}
 
 Code to review:
 ```{language}
 {code_snippet}
 ```
+
+{"User question: " + user_question if user_question else ""}
 
 Respond ONLY with a valid JSON object — no explanation, no markdown, no extra text.
 Use exactly this structure:
@@ -54,15 +38,14 @@ Use exactly this structure:
         }}
     ],
     "quality_score": <integer 0-100>,
-    "summary": "<2-3 sentence overall assessment>"
+    "summary": "<2-3 sentence overall assessment of the code>",
+    "question_answer": "{f'Directly answer this question about the code: {user_question}' if user_question else 'null'}"
 }}
 
-Severity definitions:
-- high: bugs, security vulnerabilities, or logic errors
-- medium: code smells, performance issues, or poor practices
-- low: style issues, naming conventions, minor improvements
-
-If there are no issues, return an empty array for issues.
-Quality score guide: 0-40 poor, 41-60 average, 61-80 good, 81-100 excellent.
+Rules:
+- quality_score: 0-40 poor, 41-60 average, 61-80 good, 81-100 excellent
+- If no issues found, return empty array for issues
+- question_answer: if no question was asked set it to null, otherwise give a thorough direct answer
+- severity: high = bugs/security, medium = performance/bad practices, low = style/naming
 """
     return prompt
